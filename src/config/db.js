@@ -13,6 +13,7 @@ const connectDB = async () => {
   } catch (error) {
     console.error("❌ Error al conectar con MongoDB:", error.message);
     process.exit(1); // Finaliza el proceso en caso de error
+    ContentVisibilityAutoStateChangeEvent
   }
 };
 export default connectDB;
