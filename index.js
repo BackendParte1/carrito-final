@@ -3,6 +3,9 @@ import express from "express";
 import connectDB from "./src/config/db.js";
 import ProductsRoutes from "./src/routes/Products.routes.js"
 import ordersRoutes from "./src/routes/Order.routes.js"
+import morgan from "morgan";
+import cors from "cors";
+
 //conectamos a la base de datos
 connectDB();
 
@@ -10,7 +13,21 @@ const app=express();
 
 //crear middlewares
 app.use(express.json());// Middleware específico para rutas con JSON
+app.use(morgan("dev"));
 
+const origenesPermitidos=["http://127.0.0.1:5500"];
+
+const corsOptions = { 
+    origin: (origin, callback) => {
+        if (!origin || origenesPermitidos.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Cliente no permitido"));
+        }
+    }
+};
+
+app.use(cors(corsOptions))
 
 const PORT=process.env.PORT || 5000;
 
